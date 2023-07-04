@@ -19,7 +19,7 @@ resource "google_project_service" "services" {
 # https://registry.terraform.io/providers/hashicorp/google/latest/docs/resources/iam_workload_identity_pool
 resource "google_iam_workload_identity_pool" "tfc" {
   provider                  = google-beta
-  workload_identity_pool_id = "tfc-wi"
+  workload_identity_pool_id = "tfc-wi-demo"
 
   lifecycle {
     prevent_destroy = true
@@ -34,7 +34,7 @@ resource "google_iam_workload_identity_pool" "tfc" {
 resource "google_iam_workload_identity_pool_provider" "tfc" {
   provider                           = google-beta
   workload_identity_pool_id          = google_iam_workload_identity_pool.tfc.workload_identity_pool_id
-  workload_identity_pool_provider_id = "tfc-wi"
+  workload_identity_pool_provider_id = "tfc-wi-demo"
   attribute_mapping = {
     "google.subject"                        = "assertion.sub",
     "attribute.aud"                         = "assertion.aud",
@@ -68,7 +68,7 @@ resource "google_iam_workload_identity_pool_provider" "tfc" {
 #
 # https://registry.terraform.io/providers/hashicorp/google/latest/docs/resources/google_service_account
 resource "google_service_account" "tfc" {
-  account_id   = "tfc-wi"
+  account_id   = "tfc-wi-demo"
   display_name = "Terraform Cloud WI Service Account"
 }
 

@@ -1,25 +1,10 @@
-terraform {
-  cloud {
-    organization = "wavingduck"
-
-    workspaces {
-      name = "tfc-gcp-wi-demo"
-    }
-  }
-
-  #    backend "gcs" {
-  #      bucket = "tfc-wi-demo-81359-tfstate"
-  #      prefix = "dev"
-  #    }
-}
-
 provider "google" {
-  project = "tfc-wi-demo-81359"
+  project = var.project_id
 }
 
 data "google_client_openid_userinfo" "userinfo" {}
 
-data "google_project" "project" {}
+data "google_project" "current" {}
 
 resource "random_pet" "bucket" {}
 
@@ -32,7 +17,7 @@ resource "google_storage_bucket" "example" {
 }
 
 output "project" {
-  value = data.google_project.project
+  value = data.google_project.current
 }
 
 output "userinfo" {
