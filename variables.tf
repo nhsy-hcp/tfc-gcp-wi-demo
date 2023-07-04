@@ -32,26 +32,6 @@ variable "gcp_project_id" {
   description = "The ID for your GCP project"
 }
 
-variable "gcp_service_list" {
-  description = "APIs required for the project"
-  type        = list(string)
-  default = [
-    "iam.googleapis.com",
-    "cloudresourcemanager.googleapis.com",
-    "sts.googleapis.com",
-    "iamcredentials.googleapis.com"
-  ]
-}
-
-variable "gcp_tfc_sa_roles" {
-  description = "TFC service account IAM roles"
-  type        = list(string)
-  default = [
-    "roles/storage.admin",
-    "roles/viewer"
-  ]
-}
-
 variable "github_repo" {
   description = ""
   type        = string

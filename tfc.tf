@@ -5,15 +5,6 @@
 # to GCP with the permissions set in the GCP policy.
 #
 
-data "tfe_organization" "default" {
-  name = var.tfc_organization_name
-}
-
-data "tfe_project" "default" {
-  name         = var.tfc_project_name
-  organization = var.tfc_organization_name
-}
-
 resource "tfe_oauth_client" "default" {
   name             = "GitHub-OAuth"
   api_url          = "https://api.github.com"

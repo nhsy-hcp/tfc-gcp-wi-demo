@@ -1,13 +1,13 @@
-# Data source used to get the project number programmatically.
-#
-# https://registry.terraform.io/providers/hashicorp/google/latest/docs/data-sources/project
-data "google_project" "project" {}
-
 # Enables the required services in the project.
 #
 # https://registry.terraform.io/providers/hashicorp/google/latest/docs/resources/google_project_service
 resource "google_project_service" "services" {
-  for_each                   = toset(var.gcp_service_list)
+  for_each = toset([
+    "iam.googleapis.com",
+    "cloudresourcemanager.googleapis.com",
+    "sts.googleapis.com",
+    "iamcredentials.googleapis.com"
+  ])
   service                    = each.value
   disable_dependent_services = false
   disable_on_destroy         = false
@@ -90,8 +90,11 @@ resource "google_service_account_iam_member" "tfc" {
 #
 # https://registry.terraform.io/providers/hashicorp/google/latest/docs/resources/google_project_iam
 resource "google_project_iam_member" "tfc" {
-  for_each = toset(var.gcp_tfc_sa_roles)
-  project  = var.gcp_project_id
-  role     = each.value
-  member   = "serviceAccount:${google_service_account.tfc.email}"
+  for_each = toset([
+    "roles/storage.admin",
+    "roles/viewer"
+  ])
+  project = var.gcp_project_id
+  role    = each.value
+  member  = "serviceAccount:${google_service_account.tfc.email}"
 }
